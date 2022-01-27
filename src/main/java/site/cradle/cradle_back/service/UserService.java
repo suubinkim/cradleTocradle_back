@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import site.cradle.cradle_back.domain.User;
 import site.cradle.cradle_back.domain.UserRole;
 import site.cradle.cradle_back.dto.SignupRequestDto;
+import site.cradle.cradle_back.dto.UserDto;
 import site.cradle.cradle_back.repository.UserRepository;
 
 import java.util.Optional;
@@ -34,6 +35,5 @@ public class UserService {
 
         User user = new User(username, email, password, UserRole.USER);
         userRepository.save(user);
-
     }
 }

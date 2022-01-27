@@ -8,5 +8,5 @@ import lombok.RequiredArgsConstructor;
 public class JwtResponse {
 
     private final String token;
-    private final String username;
+    private final String email;
 }
