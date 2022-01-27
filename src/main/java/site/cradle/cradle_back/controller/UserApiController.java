@@ -35,15 +35,15 @@ public class UserApiController {
     @PostMapping(value = "/signup")
     public ResponseEntity<?> createUser(@RequestBody SignupRequestDto userDto) throws Exception {
         userService.registerUser(userDto);
-        authenticate(userDto.getUsername(), userDto.getPassword());
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
+        authenticate(userDto.getEmail(), userDto.getPassword());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getEmail());
         final String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
     }
 
-    private void authenticate(String username, String password) throws Exception {
+    private void authenticate(String email, String password) throws Exception {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
