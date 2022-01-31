@@ -1,4 +1,4 @@
-package site.cradle.cradle_back.dto;
+package site.cradle.cradle_back.dto.Request;
 
 import lombok.Getter;
 import lombok.Setter;

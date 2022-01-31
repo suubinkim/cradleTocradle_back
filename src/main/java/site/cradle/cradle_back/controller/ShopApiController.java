@@ -1,15 +1,20 @@
 package site.cradle.cradle_back.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import site.cradle.cradle_back.util.aroundShopUtil;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+import site.cradle.cradle_back.dto.ShopDto;
+import site.cradle.cradle_back.dto.Response.ResultResponseDto;
+import site.cradle.cradle_back.security.UserDetailsImpl;
+import site.cradle.cradle_back.service.ShopService;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
 public class ShopApiController {
+
+    private final ShopService shopService;
 
 
 //    //선택한 지역 주변의 가게
@@ -21,6 +26,20 @@ public class ShopApiController {
     //선택한 지역 주변의 가게
     @GetMapping(value = "/shop/offline")
     public String offlineShop(@RequestParam String location) {
-        return aroundShopUtil.naverSearchShop(location);
+        return shopService.naverSearchShop(location);
+    }
+
+    //오프라인 찜한 가게 등록
+    @PostMapping(value = "/shop/favorite")
+    public ResultResponseDto favoriteShop(@RequestBody ShopDto requestDto,
+                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        shopService.saveShop(requestDto, userDetails.getUser());
+        return new ResultResponseDto("success", "찜한 가게로 등록되었습니다.");
+    }
+
+    //찜한 가게 가져오기
+    @GetMapping(value = "/shop/favorite")
+    public List<ShopDto> shops(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return shopService.getShops(userDetails.getUser());
     }
 }

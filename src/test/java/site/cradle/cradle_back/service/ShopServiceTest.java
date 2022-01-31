@@ -1,14 +1,26 @@
-package site.cradle.cradle_back.util;
+package site.cradle.cradle_back.service;
 
+import io.jsonwebtoken.lang.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import site.cradle.cradle_back.domain.LocationType;
+import site.cradle.cradle_back.domain.Shop;
+import site.cradle.cradle_back.domain.User;
+import site.cradle.cradle_back.domain.UserRole;
+import site.cradle.cradle_back.repository.ShopRepository;
+import site.cradle.cradle_back.repository.UserRepository;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -19,10 +31,13 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
+@SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class aroundShopUtilTest {
-    @InjectMocks
-    private aroundShopUtil aroundShopUtil;
+public class ShopServiceTest {
+    @Autowired
+    private ShopRepository shopRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     public void 카카오찾기() {
@@ -64,7 +79,7 @@ public class aroundShopUtilTest {
         URI uri = UriComponentsBuilder
                 .fromUriString("https://openapi.naver.com")
                 .path("/v1/search/local.json")
-                .queryParam("query", "서울 제로웨이스트")
+                .queryParam("query", "서울특별시 강남구 제로웨이스트 샵")
                 .queryParam("display", 10)
                 .queryParam("start", 1)
                 .queryParam("sort", "random")
@@ -85,5 +100,25 @@ public class aroundShopUtilTest {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> result = restTemplate.exchange(req, String.class);
         System.out.println(result.getBody());
+    }
+
+    @Test
+    public void 가게저장() {
+        //given
+        User user = new User("gg","gg@gg","gg", UserRole.USER);
+        userRepository.save(user);
+        Shop shop = new Shop("가게이름",
+                "requestDto.getLink()",
+                "requestDto.getAddress()",
+                user,
+                LocationType.OFFLINE,
+                " ",
+                "b");
+
+        //when
+        shopRepository.save(shop);
+        //then
+        assertThat(shopRepository.findAll().size()).isEqualTo(1);
+
     }
 }

@@ -14,7 +14,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 @RequiredArgsConstructor
-@Service
 public class aroundShopUtil {
     private static String GEOCODE_URL = "http://dapi.kakao.com/v2/local/search/keyword.json?query=";
     private static String GEOCODE_USER_INFO = "KakaoAK dc0eb7328ada55278701dc6a126c26cc";
@@ -48,33 +47,5 @@ public class aroundShopUtil {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public static String naverSearchShop(String location) {
-        URI uri = UriComponentsBuilder
-                .fromUriString("https://openapi.naver.com")
-                .path("/v1/search/local.json")
-                .queryParam("query", location + " 제로웨이스트")
-                .queryParam("display", 10)
-                .queryParam("start", 1)
-                .queryParam("sort", "random")
-                .encode(StandardCharsets.UTF_8)
-                .encode()
-                .build()
-                .toUri();
-
-        RequestEntity<Void> req = (RequestEntity<Void>) RequestEntity
-                .get(uri)
-                .header("X-Naver-Client-Id", "qXCHBCMwdV9Zph1ZEwsV")
-                .header("X-Naver-Client-Secret", "IoxpIY6dOF")
-                .build();
-
-        //주소 로그 확인
-//        log.info("uri : {}", uri);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> result = restTemplate.exchange(req, String.class);
-        System.out.println(result.getBody());
-        return result.getBody();
     }
 }

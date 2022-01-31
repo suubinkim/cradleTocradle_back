@@ -36,6 +36,8 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.0.3'
     implementation 'org.springframework.cloud:spring-cloud-starter-aws-secrets-manager-config:2.2.6.RELEASE'
     implementation group: 'org.json', name: 'json', version: '20090211'
+    //jsoup
+    implementation 'org.jsoup:jsoup:1.14.2'
 }
 
 tasks.named('test') {
