@@ -1,29 +1,39 @@
 package site.cradle.cradle_back.util;
 
-import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-@RequiredArgsConstructor
-@Service
-public class aroundShopUtil {
-    private static String GEOCODE_URL = "http://dapi.kakao.com/v2/local/search/keyword.json?query=";
-    private static String GEOCODE_USER_INFO = "KakaoAK dc0eb7328ada55278701dc6a126c26cc";
+@ExtendWith(MockitoExtension.class)
+public class aroundShopUtilTest {
+    @InjectMocks
+    private aroundShopUtil aroundShopUtil;
 
-    public static StringBuilder kakaoSearchShop() {
+    @Test
+    public void 카카오찾기() {
+        //given
+        String GEOCODE_URL = "http://dapi.kakao.com/v2/local/search/keyword.json?query=";
+        String GEOCODE_USER_INFO = "KakaoAK dc0eb7328ada55278701dc6a126c26cc";
+
         URL obj;
         try {
             //인코딩한 String을 넘겨야 원하는 데이터를 받을 수 있다.
-            String keyword = URLEncoder.encode("제로웨이스트", "UTF-8");
+            String keyword = URLEncoder.encode("대전 제로웨이스트", "UTF-8");
             String request = URLEncoder.encode("sort=distance", "UTF-8");
             obj = new URL(GEOCODE_URL + keyword + "&" + request);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -40,21 +50,21 @@ public class aroundShopUtil {
             StringBuilder response = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
-            } //response 객체를 출력해보자
+            }
+            //response 객체를 출력해보자
             System.out.println(response);
-            return response;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return null;
     }
 
-    public static String naverSearchShop(String location) {
+    @Test
+    public void 네이버찾기() {
         URI uri = UriComponentsBuilder
                 .fromUriString("https://openapi.naver.com")
                 .path("/v1/search/local.json")
-                .queryParam("query", location + " 제로웨이스트")
+                .queryParam("query", "서울 제로웨이스트")
                 .queryParam("display", 10)
                 .queryParam("start", 1)
                 .queryParam("sort", "random")
@@ -75,6 +85,5 @@ public class aroundShopUtil {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> result = restTemplate.exchange(req, String.class);
         System.out.println(result.getBody());
-        return result.getBody();
     }
 }
