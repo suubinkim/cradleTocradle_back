@@ -40,6 +40,6 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.14.2'
 }
 
-tasks.named('test') {
+test {
     useJUnitPlatform()
 }
