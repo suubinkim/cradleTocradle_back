@@ -62,11 +62,15 @@ public class ShopService {
                 requestDto.getLink(),
                 requestDto.getAddress(),
                 user,
-                LocationType.OFFLINE,
-                requestDto.getDescription(),
-                requestDto.getImgLink()
+                requestDto.getLocationType(),
+                requestDto.getDescription()
         );
         favoriteShopRepository.save(wish);
+    }
+
+    public void deleteShop(String title, User user) {
+        favoriteShop byTitleAndUser = favoriteShopRepository.findByTitleAndUser(title, user);
+        favoriteShopRepository.delete(byTitleAndUser);
     }
 
     public List<ShopDto> getShops(User user) {

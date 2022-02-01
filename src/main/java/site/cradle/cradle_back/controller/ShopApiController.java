@@ -50,4 +50,11 @@ public class ShopApiController {
     public List<OnlineShopDto> ShopCrawling() throws IOException {
         return shopService.crawling();
     }
+
+    @DeleteMapping(value = "/shop/favorite")
+    public ResultResponseDto deleteShop(@RequestParam("title") String title,
+                                        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        shopService.deleteShop(title, userDetails.getUser());
+        return new ResultResponseDto("success", "삭제되었습니다.");
+    }
 }

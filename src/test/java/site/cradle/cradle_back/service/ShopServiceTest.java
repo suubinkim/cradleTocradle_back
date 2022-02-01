@@ -116,8 +116,7 @@ public class ShopServiceTest {
                 "requestDto.getAddress()",
                 user,
                 LocationType.OFFLINE,
-                " ",
-                "b");
+                " ");
 
         //when
         favoriteShopRepository.save(favoriteShop);
