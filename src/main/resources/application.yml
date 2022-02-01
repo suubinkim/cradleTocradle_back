@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://cradle-prac.ct4ntf7ac9d1.ap-northeast-2.rds.amazonaws.com/cradle
-    username: admin
-    password: 123456789
+    url: ${MYSQL_URL}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PW}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -11,7 +11,7 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     generate-ddl: true
     open-in-view: false
 
@@ -35,10 +35,10 @@ cloud:
   aws:
     credentials:
       use-default-aws-credentials-chain: true
-      accessKey: ${AWS_S3_ACCESS_KEY}
-      secretKey: ${AWS_S3_SECRET_KEY}
-    s3:
-      bucket: ${AWS_S3_BUCKET_NAME}
+#      accessKey: ${AWS_S3_ACCESS_KEY}
+#      secretKey: ${AWS_S3_SECRET_KEY}
+#    s3:
+#      bucket: ${AWS_S3_BUCKET_NAME}
     region:
       static: ap-northeast-2
     stack:
