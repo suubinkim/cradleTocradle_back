@@ -1,26 +1,28 @@
 package site.cradle.cradle_back.dto;
 
 import lombok.Getter;
-import org.json.JSONException;
-import org.json.JSONObject;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import site.cradle.cradle_back.domain.LocationType;
+import site.cradle.cradle_back.domain.favoriteShop;
 
+@Setter
 @Getter
+@NoArgsConstructor
 public class ShopDto {
-    private final String title;
-    private final String link;
-    private final String description;
-    private final String address;
-    private final String roadAddress;
-    private final int mapx;
-    private final int mapy;
+    private String title;
+    private String link;
+    private String address;
+    private String description;
+    private LocationType locationType;
+    private int mapx;
+    private int mapy;
 
-    public ShopDto(JSONObject shopJson) throws JSONException {
-        this.title = shopJson.getString("title");
-        this.link = shopJson.getString("link");
-        this.description = shopJson.getString("description");
-        this.address = shopJson.getString("address");
-        this.roadAddress = shopJson.getString("roadAddress");
-        this.mapx = shopJson.getInt("mapx");
-        this.mapy = shopJson.getInt("mapy");
+    public ShopDto(favoriteShop favoriteShop) {
+        this.title = favoriteShop.getTitle();
+        this.link = favoriteShop.getLink();
+        this.address = favoriteShop.getAddress();
+        this.description = favoriteShop.getDescription();
+        this.locationType = favoriteShop.getLocationType();
     }
 }

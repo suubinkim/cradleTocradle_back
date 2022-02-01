@@ -10,9 +10,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
-import site.cradle.cradle_back.dto.JwtResponse;
-import site.cradle.cradle_back.dto.SignupRequestDto;
-import site.cradle.cradle_back.dto.UserDto;
+import site.cradle.cradle_back.dto.Response.JwtResponse;
+import site.cradle.cradle_back.dto.Request.SignupRequestDto;
+import site.cradle.cradle_back.dto.Response.UserResponseDto;
 import site.cradle.cradle_back.security.UserDetailsImpl;
 import site.cradle.cradle_back.service.UserService;
 import site.cradle.cradle_back.util.JwtTokenUtil;
@@ -45,8 +45,8 @@ public class UserApiController {
     }
 
     @GetMapping(value = "/getUsername")
-    public UserDto getUsername(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return new UserDto(userDetails.getUser());
+    public UserResponseDto getUsername(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return new UserResponseDto(userDetails.getUser());
     }
 
     private void authenticate(String email, String password) throws Exception {

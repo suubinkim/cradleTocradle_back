@@ -1,4 +1,4 @@
-package site.cradle.cradle_back.dto;
+package site.cradle.cradle_back.dto.Response;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
