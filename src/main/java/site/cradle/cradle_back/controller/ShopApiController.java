@@ -3,11 +3,13 @@ package site.cradle.cradle_back.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import site.cradle.cradle_back.dto.OnlineShopDto;
 import site.cradle.cradle_back.dto.ShopDto;
 import site.cradle.cradle_back.dto.Response.ResultResponseDto;
 import site.cradle.cradle_back.security.UserDetailsImpl;
 import site.cradle.cradle_back.service.ShopService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -41,5 +43,11 @@ public class ShopApiController {
     @GetMapping(value = "/shop/favorite")
     public List<ShopDto> shops(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return shopService.getShops(userDetails.getUser());
+    }
+
+    //온라인 사이트 가져오기
+    @GetMapping(value = "/shop/online")
+    public List<OnlineShopDto> ShopCrawling() throws IOException {
+        return shopService.crawling();
     }
 }

@@ -1,6 +1,10 @@
 package site.cradle.cradle_back.service;
 
 import lombok.RequiredArgsConstructor;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -8,13 +12,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import site.cradle.cradle_back.domain.LocationType;
-import site.cradle.cradle_back.domain.Shop;
+import site.cradle.cradle_back.domain.favoriteShop;
 import site.cradle.cradle_back.domain.User;
+import site.cradle.cradle_back.dto.OnlineShopDto;
 import site.cradle.cradle_back.dto.ShopDto;
-import site.cradle.cradle_back.repository.ShopRepository;
+import site.cradle.cradle_back.repository.favoriteShopRepository;
 
+import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +30,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ShopService {
 
-    private final ShopRepository shopRepository;
+    private final favoriteShopRepository favoriteShopRepository;
 
     //네이버 지역 검색 api 사용
     public String naverSearchShop(String location) {
@@ -51,7 +58,7 @@ public class ShopService {
     }
 
     public void saveShop(ShopDto requestDto, User user) {
-        Shop wish = new Shop(requestDto.getTitle(),
+        favoriteShop wish = new favoriteShop(requestDto.getTitle(),
                 requestDto.getLink(),
                 requestDto.getAddress(),
                 user,
@@ -59,14 +66,32 @@ public class ShopService {
                 requestDto.getDescription(),
                 requestDto.getImgLink()
         );
-        shopRepository.save(wish);
+        favoriteShopRepository.save(wish);
     }
 
     public List<ShopDto> getShops(User user) {
-        List<Shop> allByUser = shopRepository.findAllByUser(user);
+        List<favoriteShop> allByUser = favoriteShopRepository.findAllByUser(user);
         return allByUser
                 .stream()
                 .map(ShopDto::new)
                 .collect(Collectors.toList());
+    }
+
+    //온라인사이트 웹크롤링
+    public List<OnlineShopDto> crawling() throws IOException {
+        String url = "https://ad.search.naver.com/search.naver?where=ad&query=%EC%A0%9C%EB%A1%9C%EC%9B%A8%EC%9D%B4%EC%8A%A4%ED%8A%B8%EC%83%B5&referenceId=hQADhdp0Jy0ssPuRd34ssssss9C-165294";
+
+        Document doc = Jsoup.connect(url).get();
+        Elements contents = doc.select("ol[class=lst_type]").select("li div[class=inner]");
+
+        ArrayList<OnlineShopDto> OnlineShopList = new ArrayList<>();
+
+        for (Element content : contents) {
+            String title = content.select("a[class=lnk_tit]").text();
+            String des = content.select("div[class=ad_dsc]").select("p[class=ad_dsc_inner]").text();
+            String link = content.select("div[class=url_area]").select("a[class=url]").text();
+            OnlineShopList.add(new OnlineShopDto(title, des, link));
+        }
+        return OnlineShopList;
     }
 }

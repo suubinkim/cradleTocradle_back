@@ -1,10 +1,11 @@
 package site.cradle.cradle_back.service;
 
-import io.jsonwebtoken.lang.Assert;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,16 +14,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import site.cradle.cradle_back.domain.LocationType;
-import site.cradle.cradle_back.domain.Shop;
+import site.cradle.cradle_back.domain.favoriteShop;
 import site.cradle.cradle_back.domain.User;
 import site.cradle.cradle_back.domain.UserRole;
-import site.cradle.cradle_back.repository.ShopRepository;
+import site.cradle.cradle_back.dto.OnlineShopDto;
 import site.cradle.cradle_back.repository.UserRepository;
+import site.cradle.cradle_back.repository.favoriteShopRepository;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -30,12 +32,14 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class ShopServiceTest {
     @Autowired
-    private ShopRepository shopRepository;
+    private favoriteShopRepository favoriteShopRepository;
     @Autowired
     private UserRepository userRepository;
 
@@ -105,9 +109,9 @@ public class ShopServiceTest {
     @Test
     public void 가게저장() {
         //given
-        User user = new User("gg","gg@gg","gg", UserRole.USER);
+        User user = new User("gg", "gg@gg", "gg", UserRole.USER);
         userRepository.save(user);
-        Shop shop = new Shop("가게이름",
+        favoriteShop favoriteShop = new favoriteShop("가게이름",
                 "requestDto.getLink()",
                 "requestDto.getAddress()",
                 user,
@@ -116,9 +120,32 @@ public class ShopServiceTest {
                 "b");
 
         //when
-        shopRepository.save(shop);
+        favoriteShopRepository.save(favoriteShop);
         //then
-        assertThat(shopRepository.findAll().size()).isEqualTo(1);
+        assertThat(favoriteShopRepository.findAll().size()).isEqualTo(1);
 
+    }
+
+    @Test
+    public void 웹크롤링() throws IOException {
+        //given
+        String url = "https://ad.search.naver.com/search.naver?where=ad&query=%EC%A0%9C%EB%A1%9C%EC%9B%A8%EC%9D%B4%EC%8A%A4%ED%8A%B8%EC%83%B5&referenceId=hQADhdp0Jy0ssPuRd34ssssss9C-165294";
+
+        Document doc = Jsoup.connect(url).get();
+        Elements contents = doc.select("ol[class=lst_type]").select("li div[class=inner]");
+//        Elements title = contents.select("li div[class=inner]").select("a[class=lnk_tit]");
+//        Elements imgLink = contents.select("div[class=ad_thumb]").select("a").select("img");
+//        Elements des = contents.select("li div[class=inner]").select("div[class=ad_dsc]").select("p[class=ad_dsc_inner]");
+//        Elements link = contents.select("li div[class=inner]").select("div[class=url_area]").select("a[class=url]");
+        ArrayList<OnlineShopDto> OnlineShopList = new ArrayList<>();
+        for (Element content : contents) {
+            String title = content.select("a[class=lnk_tit]").text();
+            String des = content.select("div[class=ad_dsc]").select("p[class=ad_dsc_inner]").text();
+            String link = content.select("div[class=url_area]").select("a[class=url]").text();
+            OnlineShopList.add(new OnlineShopDto(title, des, link));
+        }
+//        for (OnlineShopDto onlineShopDto : OnlineShopList) {
+//            System.out.println(onlineShopDto.getLink());
+//        }
     }
 }
