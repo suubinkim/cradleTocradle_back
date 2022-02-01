@@ -44,7 +44,7 @@ public class ShopServiceTest {
     private UserRepository userRepository;
 
     @Test
-    public void 카카오찾기() {
+    public void searchKakao() {
         //given
         String GEOCODE_URL = "http://dapi.kakao.com/v2/local/search/keyword.json?query=";
         String GEOCODE_USER_INFO = "KakaoAK dc0eb7328ada55278701dc6a126c26cc";
@@ -79,7 +79,7 @@ public class ShopServiceTest {
     }
 
     @Test
-    public void 네이버찾기() {
+    public void searchNaver() {
         URI uri = UriComponentsBuilder
                 .fromUriString("https://openapi.naver.com")
                 .path("/v1/search/local.json")
@@ -107,7 +107,7 @@ public class ShopServiceTest {
     }
 
     @Test
-    public void 가게저장() {
+    public void saveShop() {
         //given
         User user = new User("gg", "gg@gg", "gg", UserRole.USER);
         userRepository.save(user);
@@ -118,15 +118,15 @@ public class ShopServiceTest {
                 LocationType.OFFLINE,
                 " ");
 
-        //when
-        favoriteShopRepository.save(favoriteShop);
-        //then
-        assertThat(favoriteShopRepository.findAll().size()).isEqualTo(1);
+//        //when
+//        favoriteShopRepository.save(favoriteShop);
+//        //then
+//        assertThat(favoriteShopRepository.findAll().size()).isEqualTo(1);
 
     }
 
     @Test
-    public void 웹크롤링() throws IOException {
+    public void crawling() throws IOException {
         //given
         String url = "https://ad.search.naver.com/search.naver?where=ad&query=%EC%A0%9C%EB%A1%9C%EC%9B%A8%EC%9D%B4%EC%8A%A4%ED%8A%B8%EC%83%B5&referenceId=hQADhdp0Jy0ssPuRd34ssssss9C-165294";
 
