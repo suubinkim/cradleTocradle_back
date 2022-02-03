@@ -1,4 +1,4 @@
-package site.cradle.cradle_back.controller;
+package site.cradle.cradle_back.security;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
