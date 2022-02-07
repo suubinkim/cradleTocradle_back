@@ -43,3 +43,14 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+
+sns:
+  google:
+    url: https://accounts.google.com/o/oauth2/v2/auth
+    client:
+      id: ${CLIENT_ID}
+      secret: ${CLIENT_PW}
+    callback:
+      url: http://localhost:8080/login/google/callback
+    token:
+      url: https://oauth2.googleapis.com/token

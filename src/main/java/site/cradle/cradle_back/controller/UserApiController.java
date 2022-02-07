@@ -58,4 +58,15 @@ public class UserApiController {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
     }
+
+    //구글 로그인
+    @GetMapping(value = "/login/google")
+    public String googleLogin() {
+        return userService.getOauthRedirectURL();
+    }
+
+    @GetMapping(value = "/login/google/callback")
+    public String googleCallback(@RequestParam(name = "code") String code) {
+        return userService.requestAccessToken(code);
+    }
 }

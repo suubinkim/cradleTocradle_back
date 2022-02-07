@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/login").permitAll()
+                .antMatchers("/login/**").permitAll()
                 .antMatchers("/signup").permitAll()
                 .antMatchers("/getUsername").permitAll()
                 .antMatchers("/shop/**").permitAll()
