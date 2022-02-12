@@ -1,6 +1,7 @@
 package site.cradle.cradle_back.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,10 +13,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import site.cradle.cradle_back.dto.Response.JwtResponse;
 import site.cradle.cradle_back.dto.Request.SignupRequestDto;
+import site.cradle.cradle_back.dto.Response.ResultResponseDto;
 import site.cradle.cradle_back.dto.Response.UserResponseDto;
 import site.cradle.cradle_back.security.UserDetailsImpl;
 import site.cradle.cradle_back.service.UserService;
 import site.cradle.cradle_back.util.JwtTokenUtil;
+
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @RestController
@@ -44,6 +48,12 @@ public class UserApiController {
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
     }
 
+    @GetMapping(value = "/doubleCheck")
+    public ResultResponseDto checkEmail(@RequestParam String email) {
+        userService.checkEmail(email);
+        return new ResultResponseDto("success", "사용 가능한 이메일입니다.");
+    }
+
     @GetMapping(value = "/getUsername")
     public UserResponseDto getUsername(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return new UserResponseDto(userDetails.getUser());
@@ -61,12 +71,12 @@ public class UserApiController {
 
     //구글 로그인
     @GetMapping(value = "/login/google")
-    public String googleLogin() {
-        return userService.getOauthRedirectURL();
+    public void googleLogin() throws IOException {
+        userService.getOauthRedirectURL();
     }
 
     @GetMapping(value = "/login/google/callback")
-    public String googleCallback(@RequestParam(name = "code") String code) {
+    public String googleCallback(@RequestParam(name = "code") String code) throws JSONException, IOException {
         return userService.requestAccessToken(code);
     }
 }
