@@ -15,3 +15,11 @@ https://www.subinee.shop/
 - 마음에 드는 샵 찜하기 기능 ( 로그인 후 가능 )
 
 ## 사용 기술
+- Java
+- SpringBoot
+- Spring Data JPA
+- Spring Security
+- MySQL(AWS RDS)
+- AWS - EB, Route53
+- Git - 형상관리
+- Github Actions - CI/CD
