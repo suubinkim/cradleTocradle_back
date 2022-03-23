@@ -1,8 +1,9 @@
 # 요람에서 요람까지
 제로웨이스트 샵 찾기 서비스
 
-## 사이트
-https://www.subinee.shop/
+## 링크
+- 사이트 : https://www.subinee.shop/
+- <a href="https://verbena-bonnet-75e.notion.site/a14085f78b8b498ca5d74da381cb5107">개발문서</a> (페이지 기획서-figma, API 문서)
 
 ## 진행 기간
 2022-01-20 ~ 2022-02-03 (2주)
@@ -25,3 +26,4 @@ https://www.subinee.shop/
 - AWS - EB, Route53
 - Git - 형상관리
 - Github Actions - CI/CD
+
