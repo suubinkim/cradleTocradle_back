@@ -10,7 +10,7 @@
 
 -구글 로그인 기능 추가 중
 
-## 주요 기능 <a href="https://github.com/suubinkim/cradleTocradle_back/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5">상세보기</a>
+## 주요 기능
 - 회원가입 & 로그인
 
 ![회원가입 로그인](https://user-images.githubusercontent.com/78840035/162551104-3007b0c6-809a-4707-9d65-7fe6c75b87e1.gif)
