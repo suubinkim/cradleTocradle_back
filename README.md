@@ -10,6 +10,17 @@
 
 -구글 로그인 기능 추가 중
 
+## 사용 기술
+- Java
+- SpringBoot
+- Spring Data JPA
+- Spring Security
+- MySQL(AWS RDS)
+- AWS - EB, Route53
+- Git - 형상관리
+- Github Actions - CI/CD
+
+
 ## 주요 기능
 - 회원가입 & 로그인
 
@@ -30,15 +41,4 @@
 - 마음에 드는 가게 찜하기 기능
 
 ![찜](https://user-images.githubusercontent.com/78840035/162551761-884732db-d313-45fc-be69-5a0b0a4cf94e.gif)
-
-
-## 사용 기술
-- Java
-- SpringBoot
-- Spring Data JPA
-- Spring Security
-- MySQL(AWS RDS)
-- AWS - EB, Route53
-- Git - 형상관리
-- Github Actions - CI/CD
 
