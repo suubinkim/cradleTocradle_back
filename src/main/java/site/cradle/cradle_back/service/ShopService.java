@@ -23,6 +23,7 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,6 +59,8 @@ public class ShopService {
     }
 
     public void saveShop(ShopDto requestDto, User user) {
+        //이미 찜 목록에 저장되있는지 체크
+        checkShop(requestDto.getTitle());
         favoriteShop wish = new favoriteShop(requestDto.getTitle(),
                 requestDto.getLink(),
                 requestDto.getAddress(),
@@ -66,6 +69,14 @@ public class ShopService {
                 requestDto.getDescription()
         );
         favoriteShopRepository.save(wish);
+    }
+
+    public void checkShop(String shopName) {
+        //이메일 중복체크
+        Optional<favoriteShop> found = favoriteShopRepository.findByTitle(shopName);
+        if (found.isPresent()) {
+            throw new IllegalArgumentException("이미 저장된 가게입니다.");
+        }
     }
 
     public void deleteShop(String title, User user) {
