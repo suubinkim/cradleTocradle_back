@@ -19,7 +19,6 @@ import site.cradle.cradle_back.domain.User;
 import site.cradle.cradle_back.domain.UserRole;
 import site.cradle.cradle_back.dto.Request.SignupRequestDto;
 import site.cradle.cradle_back.repository.UserRepository;
-import site.cradle.cradle_back.util.GoogleOAuthRequest;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.plaf.PanelUI;
