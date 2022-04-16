@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**/*").permitAll()
-                .antMatchers(HttpMethod.GET, "/").permitAll()
+                .antMatchers(HttpMethod.GET, "/healthCheck").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/login/**").permitAll()
                 .antMatchers("/signup").permitAll()
