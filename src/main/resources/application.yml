@@ -1,9 +1,8 @@
 spring:
   datasource:
-    url: ${MYSQL_URL}
-    username: ${MYSQL_USERNAME}
-    password: ${MYSQL_PW}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${SQL_URL}
+    username: ${SQL_USERNAME}
+    password: ${SQL_PW}
 
   jpa:
     #    show-sql: true
@@ -43,14 +42,3 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
-
-sns:
-  google:
-    url: https://accounts.google.com/o/oauth2/v2/auth
-    client:
-      id: ${CLIENT_ID}
-      secret: ${CLIENT_PW}
-    callback:
-      url: http://localhost:8080/login/google/callback
-    token:
-      url: https://oauth2.googleapis.com/token
