@@ -57,8 +57,10 @@ jobs:
           cp -r .platform deploy/.platform
           cd deploy && zip -r deploy.zip .
 
-      - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v14
+      - name: Beanstalk Deploy
+          # You may pin to the exact commit or the version.
+        # uses: einaregilsson/beanstalk-deploy@6f594ded1b0a22c5e5aa1088e7c58dc5816c92ea
+        uses: einaregilsson/beanstalk-deploy@v20
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
